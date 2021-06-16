@@ -1,23 +1,18 @@
 version: "3.7"
 
 services:
-  php:
-    image: wodby/drupal:$DRUPAL_TAG
-    environment:
-      PHP_FPM_CLEAR_ENV: "no"
+  mariadb:
     volumes:
-    - codebase:/var/www/html
+      - ./mariadb-init:/docker-entrypoint-initdb.d
+
+  php:
+    volumes:
+    - ./html:/var/www/html
 
   crond:
-    image: wodby/drupal:$DRUPAL_TAG
-    environment:
-      PHP_FPM_CLEAR_ENV: "no"
     volumes:
-    - codebase:/var/www/html
+    - ./html:/var/www/html
 
   nginx:
     volumes:
-    - codebase:/var/www/html
-
-volumes:
-  codebase:
+    - ./html:/var/www/html
